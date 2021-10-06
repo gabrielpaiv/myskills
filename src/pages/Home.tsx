@@ -4,18 +4,27 @@ import {
   SafeAreaView,
   StyleSheet,
   Text,
-  TextInput,
-  TouchableOpacity
+  TextInput
 } from 'react-native'
 import { Button } from '../components/Button'
 import { SkillCard } from '../components/SkillCard'
 
+type SkillData = {
+  id: string
+  name: string
+  date?: Date
+}
+
 export function Home() {
   const [newSkill, setNewSkill] = useState('')
-  const [mySkills, setMySkills] = useState([])
+  const [mySkills, setMySkills] = useState<SkillData[]>([])
 
   function handleAddNewSkill() {
-    setMySkills(oldState => [...oldState, newSkill])
+    const data = {
+      id: String(new Date().getTime()),
+      name: newSkill
+    }
+    setMySkills([...mySkills, data])
   }
   return (
     <SafeAreaView style={styles.container}>
@@ -26,12 +35,12 @@ export function Home() {
         placeholderTextColor="#555"
         onChangeText={setNewSkill}
       />
-      <Button onPress={handleAddNewSkill} />
+      <Button onPress={handleAddNewSkill} title="Add" />
       <Text style={[styles.title, { marginTop: 50 }]}>My Skills</Text>
       <FlatList
         data={mySkills}
-        keyExtractor={item => item}
-        renderItem={({ item }) => <SkillCard skill={item} />}
+        keyExtractor={item => item.id}
+        renderItem={({ item }) => <SkillCard skill={item.name} />}
       />
     </SafeAreaView>
   )
