@@ -26,6 +26,11 @@ export function Home() {
     }
     setMySkills([...mySkills, data])
   }
+
+  function handleRemoveSkill(id: string) {
+    setMySkills(oldState => oldState.filter(skill => skill.id !== id))
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Welcome, G</Text>
@@ -40,7 +45,12 @@ export function Home() {
       <FlatList
         data={mySkills}
         keyExtractor={item => item.id}
-        renderItem={({ item }) => <SkillCard skill={item.name} />}
+        renderItem={({ item }) => (
+          <SkillCard
+            skill={item.name}
+            onPress={() => handleRemoveSkill(item.id)}
+          />
+        )}
       />
     </SafeAreaView>
   )
