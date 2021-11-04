@@ -33,25 +33,36 @@ export function Home() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Welcome, G</Text>
+      <Text style={styles.title} testID="welcome">
+        Welcome, G
+      </Text>
+
       <TextInput
+        testID="new-input"
         style={styles.input}
         placeholder="New skill"
         placeholderTextColor="#555"
         onChangeText={setNewSkill}
       />
-      <Button onPress={handleAddNewSkill} title="Add" />
+
+      <Button testID="add-button" onPress={handleAddNewSkill} title="Add" />
+
       <Text style={[styles.title, { marginTop: 50 }]}>My Skills</Text>
-      <FlatList
-        data={mySkills}
-        keyExtractor={item => item.id}
-        renderItem={({ item }) => (
-          <SkillCard
-            skill={item.name}
-            onPress={() => handleRemoveSkill(item.id)}
-          />
-        )}
-      />
+
+      {mySkills && (
+        <FlatList
+          testID="skills-flatlist"
+          data={mySkills}
+          keyExtractor={item => item.id}
+          keyboardShouldPersistTaps="never"
+          renderItem={({ item }) => (
+            <SkillCard
+              skill={item.name}
+              onPress={() => handleRemoveSkill(item.id)}
+            />
+          )}
+        />
+      )}
     </SafeAreaView>
   )
 }
